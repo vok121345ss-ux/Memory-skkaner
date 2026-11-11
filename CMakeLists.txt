@@ -12,6 +12,8 @@ add_library(${PROJECT_NAME} SHARED
     src/main.cpp
     src/scanner.cpp
     src/logcat.cpp
+    src/menu.cpp
+    src/button.cpp
 )
 
 setup_geode_mod(${PROJECT_NAME})
