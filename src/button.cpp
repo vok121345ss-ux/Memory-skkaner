@@ -1,23 +1,39 @@
+
 #include <Geode/Geode.hpp>
+#include <Geode/modify/PlayLayer.hpp>
+
 #include "menu.hpp"
 
 using namespace geode::prelude;
 
 class $modify(MemoryPlayLayer, PlayLayer) {
-    bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
 
-        auto button = CCMenuItemSpriteExtra::create(
-            CircleButtonSprite::create(
-                CCLabelBMFont::create("M", "bigFont.fnt"),
-                CircleBaseColor::Green
-            ),
+    bool init(
+        GJGameLevel* level,
+        bool useReplay,
+        bool dontCreateObjects
+    ) {
+        if (!PlayLayer::init(
+            level,
+            useReplay,
+            dontCreateObjects
+        )) {
+            return false;
+        }
+
+        auto label = CCLabelBMFont::create(
+            "M",
+            "bigFont.fnt"
+        );
+
+        auto button = CCMenuItemLabel::create(
+            label,
             this,
             menu_selector(MemoryPlayLayer::openScanner)
         );
 
         auto menu = CCMenu::create();
+
         menu->addChild(button);
         menu->setPosition({0, 0});
 
@@ -29,8 +45,6 @@ class $modify(MemoryPlayLayer, PlayLayer) {
     }
 
     void openScanner(CCObject*) {
-        auto popup = MemoryScannerMenu::create();
-        if (popup)
-            popup->show();
+        MemoryScannerMenu::open();
     }
 };
