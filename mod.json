@@ -8,13 +8,9 @@
     "id": "max.memory-scanner",
     "name": "Memory Scanner",
     "developer": "Max",
-    "description": "Real-time memory diagnostics, FPS monitoring, game information and Logcat viewer for Geometry Dash.",
-    "repository": "",
+    "description": "Memory diagnostics, FPS monitoring, player and object scanner, and log viewer for Geometry Dash.",
     "tags": [
         "utility",
         "offline"
-    ],
-    "dependencies": {
-        "geode.node-ids": ">=1.0.0"
-    }
+    ]
 }
