@@ -1,43 +1,46 @@
+
 name: Build Memory Scanner
 
 on:
-workflow_dispatch:
-push:
-branches: ["**"]
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
 
 jobs:
-build:
-name: Build ${{ matrix.target }}
-runs-on: ubuntu-latest
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ubuntu-latest
 
-strategy:
-  fail-fast: false
-  matrix:
-    target:
-      - Android32
-      - Android64
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - Android32
+          - Android64
 
-steps:
-  - name: Checkout
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  - name: Build Geode Mod
-    uses: geode-sdk/build-geode-mod@main
-    with:
-      target: ${{ matrix.target }}
-      sdk: given
-      cli: latest
-      build-config: Release
-      path: ./
-      combine: false
-      bindings: geode-sdk/bindings
-      android-min-sdk: 23
-      use-cpm-cache: true
-      use-lto: true
+      - name: Build Geode Mod
+        id: build
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          target: ${{ matrix.target }}
+          sdk: given
+          cli: latest
+          build-config: Release
+          path: ./
+          combine: false
+          android-min-sdk: 23
+          use-cpm-cache: true
+          use-lto: true
 
-  - name: Upload Mod
-    uses: actions/upload-artifact@v4
-    with:
-      name: MemoryScanner-${{ matrix.target }}
-      path: "**/*.geode"
-      if-no-files-found: error
+      - name: Upload Mod
+        uses: actions/upload-artifact@v4
+        with:
+          name: MemoryScanner-${{ matrix.target }}
+          path: ${{ steps.build.outputs.build-output }}/*.geode
+          if-no-files-found: error
+          
